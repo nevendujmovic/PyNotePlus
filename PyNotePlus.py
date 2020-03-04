@@ -10,33 +10,59 @@ from tkinter import filedialog as fd
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import ImageTk, ImageGrab  # for Windows environment
+
 # import pyscreenshot as ImageGrab  # for Linux environment
 # from PIL import ImageTk  # for Linux environment
 
-# region Global variables
+
+# region ========== Global variables & settings ==========
+
+# initialize tkinter, with creation of Tk root widget (basic window, title bar as defined by OS window manager)
 root = Tk()
+
+# add default font, title and geometry
 font_style = tk_font.Font(family="Courier New", size=10)
 root.title("Process text (developed by Neven Dujmovic)")
+# (width x height + x_offset + y_offset)
 root.geometry("820x400+300+200")
-# make form not resizable
-# form.resizable(0, 0)
-tab_parent = ttk.Notebook(root)
 
+# in case you want to make form not resizable just uncomment line below
+# form.resizable(0, 0)
+
+# place tkinter window on top of the others
+root.attributes('-topmost', True)
+root.update()
+
+# lets make TAB control by using tkinter.Notebook widget (https://wiki.tcl-lang.org/page/tkinter.Notebook)
+# widget manages a collection of child windows and displays a single one at a time..
+tab_parent = ttk.Notebook(root)
 
 # endregion
 
 
-# region Tab 1
+# region =================== Tab 1 =======================
+
+# this function is used to open text file and load its content to text box widget
 def open_text_file():
-    name = fd.askopenfilename()
-    f = open(name, "r")
-    # use readlines to read all lines in the file
-    # The variable "lines" is a list containing all lines in the file
-    lines = f.readlines()
-    txtMain.insert(tk.END, lines)
-    # close the file after reading the lines.
-    f.close()
-    print(name)
+    # ensure error handling in case text file is NOT selected
+    try:
+        # open select file dialog and assign full path to variable name
+        name = fd.askopenfilename()
+
+        # open text file for reading
+        f = open(name, "r")
+
+        # all lines in the file with readlines
+        # The variable "lines" is a list containing all lines in the file
+        lines = f.readlines()
+        txt_main.insert(tk.END, lines)
+
+        # close the file after reading the lines.
+        f.close()
+        # just for the test - print selected file path in console
+        print(name)
+    except:
+        messagebox.showinfo(message="Text file not selected.")
 
 
 def increase_text_font():
@@ -68,15 +94,17 @@ btnTextSizeIncrease.pack(side=RIGHT, padx=20, pady=5, anchor='ne')
 btnTextSizeDecrease = tk.Button(frameTopTab1, text='-', bd='5', command=decrease_text_font)
 btnTextSizeDecrease.pack(side=RIGHT, padx=0, pady=5, anchor='ne')
 
-txtMain = tk.Text(tab1, height=20, width=100, bg='#FFE4E1', font=font_style)
-txtMain.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
-y_scrollbar = Scrollbar(tab1, orient=VERTICAL, command=txtMain.yview)
+txt_main = tk.Text(tab1, height=20, width=100, bg='#FFE4E1', font=font_style)
+txt_main.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
+y_scrollbar = Scrollbar(tab1, orient=VERTICAL, command=txt_main.yview)
 y_scrollbar.pack(side=RIGHT, fill=Y)
-txtMain["yscrollcommand"] = y_scrollbar.set
+txt_main["yscrollcommand"] = y_scrollbar.set
+
+
 # endregion
 
 
-# region Tab 2
+# region =================== Tab 2 =======================
 def get_image():
     try:
         temp_path = "some_image.gif"  # Whatever temp path you want here
@@ -91,7 +119,7 @@ def get_image():
         lblImage.clipboard_clear()  # clear clipboard
         os.remove(temp_path)  # delete temp file
         print(temp_path)
-    except (ValueError, Exception):
+    except:
         messagebox.showinfo(message="Clipboard is Empty.")
 
 
@@ -108,10 +136,6 @@ lblImage = tk.Label(tab2, width=82)
 lblImage.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
 # endregion
 
-
-# place tkinter window on top of the others
-root.attributes('-topmost', True)
-root.update()
 
 tab3 = ttk.Frame(tab_parent)
 tab_parent.add(tab3, text="Web operations")
