@@ -9,9 +9,9 @@ import tkinter.font as tk_font
 from tkinter import filedialog as fd
 from tkinter import ttk
 from tkinter import messagebox
-# from PIL import ImageTk, ImageGrab  # for Windows environment
-import pyscreenshot as ImageGrab  # for Linux environment
-from PIL import ImageTk  # for Linux environment
+from PIL import ImageTk, ImageGrab  # for Windows environment
+# import pyscreenshot as ImageGrab  # for Linux environment
+# from PIL import ImageTk  # for Linux environment
 
 # region Global variables
 root = Tk()
@@ -73,8 +73,6 @@ txtMain.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
 y_scrollbar = Scrollbar(tab1, orient=VERTICAL, command=txtMain.yview)
 y_scrollbar.pack(side=RIGHT, fill=Y)
 txtMain["yscrollcommand"] = y_scrollbar.set
-
-
 # endregion
 
 
@@ -82,8 +80,8 @@ txtMain["yscrollcommand"] = y_scrollbar.set
 def get_image():
     try:
         temp_path = "some_image.gif"  # Whatever temp path you want here
-        # im = ImageGrab.grabclipboard()  # Get image from clipboard Windows
-        im = ImageGrab.grab()  # Get image from clipboard Linux
+        im = ImageGrab.grabclipboard()  # Get image from clipboard Windows
+        # im = ImageGrab.grab()  # Get image from clipboard Linux
 
         im.save(temp_path)  # save image to temp folder
         load_for_label = ImageTk.PhotoImage(file=temp_path)  # load image from temp folder
