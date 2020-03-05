@@ -1,4 +1,4 @@
-Fast Python learner – naive method: Make useful utility application in Python from scratch 
+## **Fast Python learner – naive method: make useful utility application in Python from scratch**
 
 How to approach learning?
 
@@ -9,8 +9,10 @@ Problem with traditional approach, and something what educators often fail to un
 Anyhow all above mentioned is my personal experience and now I will not elaborate it anymore. It is much better to start coding something useful in the “naïve” way.
 
 Let’s start!
-My assumption is that you are total beginner in Python and that you are using Microsoft Windows environment. Just to mention that switch to Linux is very easy since Python is almost fully multiplatform language.
-Step 1: Set your Python development environment
 
-Main goal of this tutorial is to 
+My assumption is that you are total beginner in Python and that you are using Microsoft Windows environment. Just to mention that switch to Linux is very easy since Python is almost fully multiplatform language.
+
+###### **Step 1: Set your Python development environment**
+
+
 
