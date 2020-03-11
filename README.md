@@ -12,7 +12,55 @@ Let’s start!
 
 My assumption is that you are total beginner in Python and that you are using Microsoft Windows environment. Just to mention that switch to Linux is very easy since Python is almost fully multiplatform language.
 
-###### **Step 1: Set your Python development environment**
+**Step 1: Set your Python development environment**
+a) Install Python on your windows machine.
+- go to the https://www.python.org/downloads/windows/ to get Latest Python 3 Release and download the windows installer (Windows x86-64 executable installer)
+- run it the installer.
+- check the option "Add Python 3.x to PATH" on the first screen and click Next
+- on next screen choose "Customize installation" and check all options ("Documentation", "pip", "tcl/tk and IDLE", "Python test suite", "py launcher", "for all users..." and click Next
+- on the next screen just Customize install location (e.g. C:\Python38)
+
+b) add Python to Path - in order for Python commands to available at the windows command prompt we have to do the following
+- search for "environment variables" term in windows search
+- choose option "Edit the system environment variables" and select "Environment Variables"
+- under the "System variables" double click at "Path" item
+- in the dialog select option "New" and each time add following entries:
+C:\Python38\
+C:\Python38\Scripts\
+C:\Python38\Lib\site-packages\PyInstaller\
+- click OK to close dialogs
+
+
+c) install version control - this is optional (GIT is my choice)
+- go to https://git-scm.com/download/win
+- download GIT version control installer and run it with all default settings
+
+d) install additional python libraries - this will be used to enable copying of images from clipboard to our app
+- search for "cmd" term in windows search and select "Command Prompt"
+python -m pip install --upgrade Pillow
+
+e) install IDE tool for your programing needs (PyCharm is my choice)
+- go to https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=windows&code=PCC
+- download and run installer with all default settings
+
+
+
+
+
+**Step 2: let's start project**
+- Start PyCharm and select "Create new project"
+- At Location text box change project name from "untitled" to "PyNotePlus"
+- Just for checking purposes expand section "Project Interpreter: New Virtualenv environment". You will see that "Base interpreter" is "C:\Python38\python.exe" and this option has to be selected.
+- on the left side (tree view) right click at "PyNotePlus" under "Project" and select New -> Python File and provide Name "PyNotePlus"PyNotePlus" where whole program code will be placed.
+- get the code from link below (or from provided PyNotePlus.py file) and copy it.
+- pass the code the right side of the editor window in PyCharm.
+- right click at the "PyNotePlus.py" file and choose "Run'PyNotePlus'"
+- Python interpreter will do its magic and code will be interpreted in beautiful desktop application that will pop up in front of all windows. Ok, it is not most beautiful app but it is defenetly useful. It is great utility tool which can be used as adttionla clipborad for text and for image pasting. It is useful when you have to compare or copy data between applications. It will stay always on top.
+
+(optional) you can also add your project to your GIT version control: VCS -> Import into Version Control -> Create Git Repository... and click OK
+
+
+
 
 
 
