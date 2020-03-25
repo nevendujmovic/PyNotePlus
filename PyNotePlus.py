@@ -1,5 +1,5 @@
 # #####################################################################################################################
-# ######################### by Neven Dujmovic Feb 2020 - Utility desktop tool - tkinter Python ########################
+# ##################### by Neven Dujmovic March 2020 - Utility desktop tool - tkinter Python ##########################
 # #####################################################################################################################
 
 import os
@@ -34,7 +34,7 @@ root.geometry("820x400+300+200")
 root.attributes('-topmost', True)
 root.update()
 
-# # lets make TAB control by using tkinter.Notebook widget (https://wiki.tcl-lang.org/page/tkinter.Notebook)
+# # lets make "parent" TAB control by using tkinter.Notebook widget (https://wiki.tcl-lang.org/page/tkinter.Notebook)
 # # widget manages a collection of child windows and displays a single one at a time..
 tab_parent = ttk.Notebook(root)
 
@@ -42,6 +42,9 @@ tab_parent = ttk.Notebook(root)
 
 
 # region =================== Tab 1 =======================
+
+# # First we will make few functions. Those are small code routines made for specific purpose and that will be linked
+# # with actions (events) triggered by objects (buttons on window dialog in this case)
 
 # # this function is used to open text file and load its content to text box widget
 def open_text_file():
@@ -64,7 +67,7 @@ def open_text_file():
         messagebox.showinfo(message="Text file not selected.")
 
 
-# # every call of the function will increase font size by 2 in the txt_main object (of tk.Text type)
+# # every call of this function will increase font size by 2 in the txt_main object (of tk.Text type)
 def increase_text_font():
     # # assign "size" attribute to a variable
     font_size = font_style['size']
@@ -80,70 +83,86 @@ def decrease_text_font():
     font_style.configure(size=font_size - 2)
 
 
+# # new "child" TAB control will be created (tab1) and added to parent TAB control (tab_parent)
 tab1 = ttk.Frame(tab_parent)
 tab_parent.add(tab1, text="Text operations")
 
-frameTopTab1 = Frame(tab1)
-frameTopTab1.pack(fill=BOTH)
+# # frame will be created to serve as a container for button controls
+frame_topTab1 = Frame(tab1)
+frame_topTab1.pack(fill=BOTH)
 
-btnOpenFile = tk.Button(frameTopTab1, text='File Open', bd='5', command=open_text_file)
-btnOpenFile.pack(side=LEFT, padx=10, pady=5, anchor='ne')
+# # the tkinter button widget "btnOpenFile" will be used to trigger function "open_text_file"
+btn_openFile = tk.Button(frame_topTab1, text='File Open', bd='5', command=open_text_file)
+btn_openFile.pack(side=LEFT, padx=10, pady=5, anchor='ne')
 
-btnTextSizeIncrease = tk.Button(frameTopTab1, text='+', bd='5', command=increase_text_font)
-btnTextSizeIncrease.pack(side=RIGHT, padx=20, pady=5, anchor='ne')
+# # the tkinter button widget "btnTextSizeIncrease" will be used to trigger function "increase_text_font"
+btn_textSizeIncrease = tk.Button(frame_topTab1, text='+', bd='5', command=increase_text_font)
+btn_textSizeIncrease.pack(side=RIGHT, padx=20, pady=5, anchor='ne')
 
-btnTextSizeDecrease = tk.Button(frameTopTab1, text='-', bd='5', command=decrease_text_font)
-btnTextSizeDecrease.pack(side=RIGHT, padx=0, pady=5, anchor='ne')
+# # the tkinter button widget "btnTextSizeDecrease" will be used to trigger function "decrease_text_font"
+btn_textSizeDecrease = tk.Button(frame_topTab1, text='-', bd='5', command=decrease_text_font)
+btn_textSizeDecrease.pack(side=RIGHT, padx=0, pady=5, anchor='ne')
 
+# # tkinter text widget "txt_main" is added to "child" TAB control (tab1). This is place where text file will be loaded.
+# # Here we can adjust dimension and background color of text widget and assign previously defined
+# # global object "font_style". Any change (e.g. font size) in "font_style" will be directly applied to "text_main".
 txt_main = tk.Text(tab1, height=20, width=100, bg='#FFE4E1', font=font_style)
+# # this will ensure that all controls will be adjusted as we resize window dialog.
 txt_main.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
+
+# # vertical scrollbar will be added and associated with text widget "txt_main"
 y_scrollbar = Scrollbar(tab1, orient=VERTICAL, command=txt_main.yview)
 y_scrollbar.pack(side=RIGHT, fill=Y)
 txt_main["yscrollcommand"] = y_scrollbar.set
-
 
 # endregion
 
 
 # region =================== Tab 2 =======================
+
+# # this function is used to pass image data from clipboard to dialog window
 def get_image():
     try:
-        temp_path = "some_image.gif"  # Whatever temp path you want here
-        im = ImageGrab.grabclipboard()  # Get image from clipboard Windows
-        # im = ImageGrab.grab()  # Get image from clipboard Linux
+        temp_path = "some_image.gif"  # path to file where image will be temporally stored
+        im = ImageGrab.grabclipboard()  # get image from windows clipboard
+        # im = ImageGrab.grab()  # get image from linux clipboard
 
-        im.save(temp_path)  # save image to temp folder
-        load_for_label = ImageTk.PhotoImage(file=temp_path)  # load image from temp folder
-        lblImage.config(image=load_for_label)  # set image to label
-        lblImage.image = load_for_label  # save reference to image in memory
+        im.save(temp_path)  # save image to temp file
+        load_for_label = ImageTk.PhotoImage(file=temp_path)  # load image from temp file
+        lbl_image.config(image=load_for_label)  # set image to tkinter label widget
+        lbl_image.image = load_for_label  # save reference to image in memory
 
-        lblImage.clipboard_clear()  # clear clipboard
+        lbl_image.clipboard_clear()  # clear clipboard
         os.remove(temp_path)  # delete temp file
-        print(temp_path)
     except:
+        # # error will occur if clipboard is empty. Show message with tkinter "messagebox" object.
         messagebox.showinfo(message="Clipboard is Empty.")
 
 
+# # new "child" TAB control will be created (tab2) and added to parent TAB control (tab_parent)
 tab2 = ttk.Frame(tab_parent)
 tab_parent.add(tab2, text="Image operations")
 
-frameTopTab2 = Frame(tab2)
-frameTopTab2.pack(fill=BOTH)
+# # frame will be created to serve as a container for button control
+frame_topTab2 = Frame(tab2)
+frame_topTab2.pack(fill=BOTH)
 
-btnImage = tk.Button(frameTopTab2, text="IMAGE", command=get_image)
-btnImage.pack(side=RIGHT, padx=20, pady=5, anchor='ne')
+# # the tkinter button widget "btn_image" will be used to trigger function "get_image"
+btn_image = tk.Button(frame_topTab2, text="Paste image", command=get_image)
+btn_image.pack(side=RIGHT, padx=20, pady=5, anchor='ne')
 
-lblImage = tk.Label(tab2, width=82)
-lblImage.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
+# # the tkinter label widget "lbl_image" is used to display image from clipboard
+lbl_image = tk.Label(tab2, width=82)
+lbl_image.pack(side=LEFT, fill=BOTH, expand=YES, padx=10, pady=10, anchor='e')
 # endregion
-
-
-tab3 = ttk.Frame(tab_parent)
-tab_parent.add(tab3, text="Web operations")
 
 # back to normal tkinter window
 # form.attributes('-topmost', False)
 
+# # pack() method organizes the widgets in blocks before placing in the parent widget
 tab_parent.pack(expand=1, fill='both')
 
+# # method mainloop() is used when your application is ready to run.
+# # mainloop() is an infinite loop used to run the application, wait for an event to occur and
+# # process the event as long as the window is not closed
 root.mainloop()
